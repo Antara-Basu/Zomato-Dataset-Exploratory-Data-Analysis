@@ -1,0 +1,41 @@
+QUESTIONS:
+"Which country constitutes the highest volume of Zomato records or transactions, highlighting its significant presence within the dataset?"
+2)Is there a correlation between aggregate ratings and the corresponding rating text?
+3)What is the most frequently occurring aggregate rating in the dataset, and what does this reveal about the overall distribution of restaurant ratings?"
+4)"What is the primary rating range that exhibits the highest frequency of occurrences, offering key insights into the predominant customer feedback?
+
+5)How does the countplot of rating colors against their respective frequencies, presented with a dynamic palette of distinct colors?
+
+Code:
+sns.countplot(x='Rating color',data=ratings,palette=['blue', 'red','orange','yellow','green','green'])
+
+6)"Which country accounts for the highest number of '0' or no ratings provided to restaurants?
+
+
+
+Ans: India
+
+7)Visualize using pie chart the top 5 cities distribution.
+CODE:
+city_names=final_df.City.value_counts().index
+city_val=final_df.City.value_counts().values
+plt.pie(city_val[:5],labels=city_names[:5],autopct='%1.2f%%')
+
+Ans:New Delhi(68.87%), Gurgaon(14.07%), Noida(13.59%), Faridabad(3.16%), Ghaziabad(0.31%)
+
+8)Find out which currency is used by which country?
+CODE:
+final_df.columns
+final_df[['Country','Currency']].groupby(['Country','Currency']).size().reset_index()
+
+Ans: Australia	Dollar($)
+	   Brazil	    Brazilian Real
+     .........  ..............
+     United States	Dollar($)
+
+
+
+8)Which Countries do have online deliveries option?
+final_df.groupby(['Has Online delivery']).size().reset_index()
+final_df[['Country','Has Online delivery']].groupby(['Country','Has Online delivery']).size().reset_index()
+Ans: India and UAE
