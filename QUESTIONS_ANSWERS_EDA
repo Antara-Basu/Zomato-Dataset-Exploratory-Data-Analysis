@@ -1,41 +1,62 @@
 QUESTIONS:
-"Which country constitutes the highest volume of Zomato records or transactions, highlighting its significant presence within the dataset?"
+1)Top 3 countries that constitutes the highest volume of Zomato records or transactions, highlighting its significant presence within the dataset?
+
+country_names=final_df.Country.value_counts().index
+country_val=final_df.Country.value_counts().values
+##Pie Chart
+plt.pie(country_val[:3],labels=country_names[:3],autopct='%1.2f%%')
+
+Ans:Observing the data, it becomes evident that the highest number of Zomato records or transactions originate from India. Subsequently, the United States follows, and then the United Kingdom.
+
 2)Is there a correlation between aggregate ratings and the corresponding rating text?
-3)What is the most frequently occurring aggregate rating in the dataset, and what does this reveal about the overall distribution of restaurant ratings?"
-4)"What is the primary rating range that exhibits the highest frequency of occurrences, offering key insights into the predominant customer feedback?
 
-5)How does the countplot of rating colors against their respective frequencies, presented with a dynamic palette of distinct colors?
+ratings=final_df.groupby(['Aggregate rating','Rating color', 'Rating text']).size().reset_index().rename(columns={0:'Rating Count'})
+Ans:
+When the Rating is between 4.5 to 4.9---> Excellent
+When the Rating is between 4.0 to 3.4--->very good
+when the Rating is between 3.5 to 3.9----> good
+when the Rating is between 3.0 to 3.4----> average
+when the Rating is between 2.5 to 2.9----> average
+when the Rating is between 2.0 to 2.4----> Poor
 
-Code:
-sns.countplot(x='Rating color',data=ratings,palette=['blue', 'red','orange','yellow','green','green'])
+3)a.What is the most frequently occurring aggregate rating in the dataset, and what does this reveal about the overall distribution of restaurant ratings?
+3)b.What is the primary rating range that exhibits the highest frequency of occurrences, offering key insights into the predominant customer feedback?
+import matplotlib
+matplotlib.rcParams['figure.figsize']=(12,6)
+sns.barplot(x='Aggregate rating', y='Rating Count', hue = 'Rating color', data=ratings, palette=['blue', 'red', 'orange', 'yellow', 'green', 'green'])
+
+Ans:
+3)a.  Count of People not rated anything is very high. So it is the most frequently occurring aggregate rating in the dataset. Overall most people have not rated any restaurant ratings.
+3)b.The maximum number of rating is between 2.5 to 3.4 
 
 6)"Which country accounts for the highest number of '0' or no ratings provided to restaurants?
 
-
+final_df[final_df['Aggregate rating']==0].groupby('Country').size().reset_index()
+final_df.groupby(['Aggregate rating','Country']).size().reset_index().head(5)
 
 Ans: India
 
-7)Visualize using pie chart the top 5 cities distribution.
-CODE:
+7)What is top 5 cities distribution?
+
 city_names=final_df.City.value_counts().index
 city_val=final_df.City.value_counts().values
 plt.pie(city_val[:5],labels=city_names[:5],autopct='%1.2f%%')
 
-Ans:New Delhi(68.87%), Gurgaon(14.07%), Noida(13.59%), Faridabad(3.16%), Ghaziabad(0.31%)
+Ans:New Delhi(68.87%), Gurgaon(14.07%), Noida(13.59%), Faridabad(3.16%), Ghaziabad(0.31%).
 
 8)Find out which currency is used by which country?
 CODE:
 final_df.columns
 final_df[['Country','Currency']].groupby(['Country','Currency']).size().reset_index()
 
-Ans: Australia	Dollar($)
-	   Brazil	    Brazilian Real
-     .........  ..............
+Ans: Australia	        Dollar($)
+     Brazil	        Brazilian Real
+     .............      ..............
      United States	Dollar($)
 
 
 
-8)Which Countries do have online deliveries option?
+8)Which Countries have online deliveries option?
 final_df.groupby(['Has Online delivery']).size().reset_index()
 final_df[['Country','Has Online delivery']].groupby(['Country','Has Online delivery']).size().reset_index()
-Ans: India and UAE
+Ans: India and UAE.
